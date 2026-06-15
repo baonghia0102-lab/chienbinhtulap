@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chiến Binh Tự Lập - Bé Xoài</title>
+    <!-- Thêm thư viện Firebase -->
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-database-compat.js"></script>
+    
+    <style>
+        :root {
+            --primary-color: #ff9f43;
+            --bg-color: #f8f9fa;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg-color);
+            margin: 0;
+            padding: 20px;
+            text-align: center;
+            color: #333;
+        }
+        .container {
+            max-width: 500px;
+            margin: 0 auto;
+            background: white;
+            padding: 30px;
+            border-radius: 24px;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.05);
+        }
+        .profile-avatar {
+            font-size: 64px;
+            margin-bottom: 10px;
+        }
+        h1 { margin: 5px 0; color: #2d3436; }
+        
+        /* Hiệu ứng ngọn lửa TikTok Style */
+        .streak-container {
+            display: inline-flex;
+            align-items: center;
+            background: #fff0f0;
+            padding: 8px 20px;
+            border-radius: 50px;
+            margin: 15px 0;
+            font-weight: bold;
+            color: #ff4757;
+            border: 2px solid #ffcccc;
+        }
+        .fire-icon {
+            font-size: 24px;
+            margin-right: 8px;
+            animation: flicker 1.2s infinite alternate ease-in-out;
+        }
+        @keyframes flicker {
+            0% { transform: scale(1) rotate(-2deg); filter: drop-shadow(0 0 2px #ff4757); }
+            100% { transform: scale(1.15) rotate(3deg); filter: drop-shadow(0 0 10px #ff7f50); }
+        }
+        
+        /* Hiển thị Sao */
+        .stars-display {
+            font-size: 48px;
+            font-weight: 800;
+            color: #f1c40f;
+            margin: 20px 0;
+            text-shadow: 1px 2px 4px rgba(0,0,0,0.1);
+        }
+        .star-icon {
+            animation: spin 4s infinite linear;
+            display: inline-block;
+        }
+        @keyframes spin { 100% { transform: rotate(360deg); } }
+
+        /* Nút quét QR giả lập hoặc nút chức năng */
+        .btn-action {
+            background: linear-gradient(135deg, #ff9f43, #ff6b6b);
+            color: white;
+            border: none;
+            padding: 15px 35px;
+            font-size: 18px;
+            font-weight: bold;
+            border-radius: 50px;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(255, 107, 107, 0.4);
+            transition: 0.3s;
+            width: 100%;
+            margin-top: 20px;
+        }
+        .btn-action:active { transform: scale(0.98); }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="profile-avatar">🦊</div>
+    <h1 id="kid-name">Bé Xoài</h1>
+    
+    <!-- Streak Ngọn lửa -->
+    <div class="streak-container">
+        <span class="fire-icon">🔥</span>
+        <span id="streak-count">0</span> Ngày Chuỗi
+    </div>
+
+    <!-- Số sao tích lũy -->
+    <div class="stars-display">
+        <span class="star-icon">⭐</span> <span id="star-count">0</span>
+    </div>
+
+    <button class="btn-action" onclick="alert('Hệ thống QR và Giờ Vàng đang chạy ngầm tự động!')">Quét QR Tổng Kết ngày</button>
+</div>
+<script>
+    // 1. Đây là thông số chuẩn chỉnh lấy từ ảnh của bro
+    const firebaseConfig = {
+        apiKey: "AIzaSyCQcKmj8QBKHPpGcBJbe5pNnEs1118bqs0",
+        authDomain: "bang-thanh-tich-xoai.firebaseapp.com",
+        databaseURL: "https://bang-thanh-tich-xoai-default-rtdb.asia-southeast1.firebasedatabase.app",
+        projectId: "bang-thanh-tich-xoai",
+        storageBucket: "bang-thanh-tich-xoai.firebasestorage.app",
+        messagingSenderId: "464933759324",
+        appId: "1:464933759324:web:fb6a1ca747f202bc64b999",
+        measurementId: "G-GY01NLQG02"
+    };
+
+    // 2. Khởi tạo Firebase kiểu cổ điển (Tương thích tốt với GitHub Pages)
+    firebase.initializeApp(firebaseConfig);
+    const database = firebase.database();
+
+    // 3. Kết nối lấy số Sao và Streak của bé Xoài
+    const xoaiRef = database.ref('children/xoai'); 
+    
+    xoaiRef.on('value', (snapshot) => {
+        const data = snapshot.val();
+        if(data) {
+            document.getElementById('star-count').innerText = data.stars || 0;
+            document.getElementById('streak-count').innerText = data.streak || 0;
+        }
+    });
+</script>
+</body>
+</html>
