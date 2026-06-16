@@ -18,7 +18,7 @@
     h1 { font-size: 20px; font-weight: 600; color: #1d1d1f; margin-bottom: 4px; }
     .subtitle { font-size: 14px; color: #86868b; margin-bottom: 1.5rem; }
     .tabs { display: flex; gap: 8px; margin-bottom: 1.5rem; flex-wrap: wrap; }
-    .tab { padding: 8px 16px; border-radius: 20px; font-size: 13px; border: 0.5px solid #d2d2d7; background: #fff; color: #1d1d1f; cursor: pointer; transition: all 0.15s; -webkit-tap-highlight-color: transparent; }
+    .tab { padding: 8px 16px; border-radius: 20px; font-size: 13px; border: 0.5px solid #d2d2d7; background: #fff; color: #1d1d1f; cursor: pointer; transition: all 0.15s; }
     .tab.active { background: #EEEDFE; border-color: #AFA9EC; color: #3C3489; font-weight: 500; }
     .date-label { font-size: 13px; color: #86868b; margin-bottom: 12px; font-weight: 500; }
     .task-list { display: flex; flex-direction: column; gap: 10px; margin-bottom: 1.5rem; }
@@ -31,7 +31,7 @@
     .task.full-stars { background: #EAF3DE; border-color: #97C459; }
     .task.has-stars:not(.full-stars) { background: #FAEEDA; border-color: #FAC775; }
     .star-picker { display: flex; gap: 6px; margin-top: 10px; padding-left: 36px; flex-wrap: wrap; }
-    .sp-btn { height: 32px; padding: 0 12px; border-radius: 16px; border: 0.5px solid #d2d2d7; background: #fff; font-size: 12px; cursor: pointer; transition: all 0.15s; color: #1d1d1f; white-space: nowrap; -webkit-tap-highlight-color: transparent; }
+    .sp-btn { height: 32px; padding: 0 12px; border-radius: 16px; border: 0.5px solid #d2d2d7; background: #fff; font-size: 12px; cursor: pointer; transition: all 0.15s; color: #1d1d1f; white-space: nowrap; }
     .sp-btn:hover, .sp-btn:active { border-color: #EF9F27; background: #FAEEDA; color: #633806; }
     .sp-btn.sel-zero { background: #f5f5f7; border-color: #d2d2d7; color: #86868b; }
     .sp-btn.sel { background: #EF9F27; border-color: #BA7517; color: white; font-weight: 600; }
@@ -413,7 +413,7 @@ function renderRewards(netTotal){
   
   const buildCard = (r) => {
     const isUnlocked = netTotal >= r.cost;
-    return `<div class="reward ${isUnlocked ? 'unlocked' : ''}" onclick="${isUnlocked ? `claimReward('${r.id}')` : ''}">
+   return `<div class="reward ${isUnlocked ? 'unlocked' : ''}" ${isUnlocked ? `onclick="claimReward('${r.id}')" style="cursor:pointer;"` : ''}>`
       <div class="reward-icon" aria-hidden="true">${r.icon}</div>
       <div class="reward-name">${r.name}${r.note ? `<br><strong style="font-size:12px">${r.note}</strong>` : ''}</div>
       <div class="reward-cost">${r.cost} ⭐</div>
