@@ -230,7 +230,13 @@ function listenFirebase() {
     if (data) {
       newState.tasks = data.tasks ? data.tasks : {};
       newState.run = data.run ? data.run : {};
-      newState.history = Array.isArray(data.history) ? data.history : (data.history ? Object.values(data.history) : []);
+      
+      // Xử lý chuẩn để history không bao giờ bị lỗi mất dữ liệu hoặc lỗi kiểu cấu trúc mảng
+      if (data.history) {
+        newState.history = Array.isArray(data.history) ? data.history : Object.values(data.history);
+      } else {
+        newState.history = [];
+      }
     }
     
     state = newState;
@@ -243,10 +249,13 @@ function listenFirebase() {
   });
 }
 
+// LƯU RIÊNG TỪNG NHÁNH ĐỂ TRÁNH LỖI GHI ĐÈ MẤT DỮ LIỆU
 async function saveToServer() {
   try {
-    await database.ref().put(state);
-  } catch (e) { console.error("Lỗi ghi dữ liệu dữ liệu lên Firebase:", e); }
+    await database.ref('tasks').set(state.tasks);
+    await database.ref('run').set(state.run);
+    await database.ref('history').set(state.history);
+  } catch (e) { console.error("Lỗi ghi dữ liệu lên Firebase:", e); }
 }
 
 function getEarned(date,id){ 
